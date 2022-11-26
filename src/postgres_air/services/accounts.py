@@ -14,6 +14,7 @@ class AccountServices:
 
     def _get_account(self, account_id):
         query = self.session.query(Account).filter_by(account_id=account_id)
+
         if not query:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         return query
@@ -26,6 +27,8 @@ class AccountServices:
 
     def get_account(self, account_id):
         res = self._get_account(account_id)
+        if not res:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         return res.first()
 
     def create_account(self, account):
